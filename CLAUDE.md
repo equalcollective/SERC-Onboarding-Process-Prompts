@@ -66,6 +66,26 @@ Every recommendation cites a specific data point. No opinions without numbers.
 - Do NOT repeat the same data point across multiple steps — reference it
 - Each step should contain only NEW analysis, not rehashed content from previous steps
 
+### SQP Tagging — Relevancy First
+- ONLY tag keywords that are genuinely relevant to the hero ASIN's product. Not top 100. Not top by volume. Only relevant.
+- Every keyword must pass: "would a customer searching this actually want THIS product?"
+- If a keyword is about a different product type, category, or use case — do NOT tag it even if the brand has impressions on it.
+- Tags are persistent in SQP and used across sessions. Wrong tags pollute future analysis for every team member.
+- After tagging, confirm how many keywords per tier and that all are product-relevant.
+
+### SQP Rate Metrics — Meaningful Sample Only
+- NEVER calculate CVR/CTR/ATC on keywords where brand has <5 clicks. The number is meaningless.
+- For CVR/CTR/ATC analysis, use keywords sorted by brand clicks or purchases — not by search volume.
+- Top 100 by volume will show 90 keywords with zero brand data for small brands. Useless for rate analysis.
+- Analyze the 20-50 keywords where the brand actually has clicks. That's where conversion data is real.
+- For volume/impression analysis (market sizing, impression share), top by volume is fine.
+- For conversion analysis (CVR, CTR, ATC vs market), top by brand clicks is the right lens.
+
+### Bullet Points, Not Paragraphs
+- Database properties that contain multiple items (Client Goal, Constraints, Hero Root Groups, Notes) must use bullet points — one item per bullet.
+- Never write these as paragraphs. Paragraphs hide information. Bullets make every point scannable.
+- Format: • point 1 • point 2 • point 3
+
 ### No Summary Paragraphs
 - Do NOT write prose summary paragraphs at the end of any step output
 - Tables are self-explanatory. The chat summary (given verbally after each step) serves as the recap.
@@ -75,7 +95,7 @@ Every recommendation cites a specific data point. No opinions without numbers.
 Every data point must include:
 1. **Date range** — when the data is from (e.g., "Jan 2026", "Q1 2025 vs Q1 2026", "Oct 2024–Feb 2026 avg")
 2. **Metric source** — which tool/report produced it (e.g., "SQP CVR", "BR CVR", "Ad CVR", "Metrics Engine", "Seller Central Audit")
-3. **Sample qualifier** (for rate metrics like CVR, CTR, ATC) — how many clicks/sessions the rate is based on. If <50 events, flag as "low confidence"
+3. **Sample qualifier** (for rate metrics like CVR, CTR, ATC) — Confidence is a judgment call based on (in order): relevancy to product → search volume → meaningful clicks (20-30+ generally, depends on brand scale, never 2 clicks) → purchases/CVR. Not rigid thresholds — scale of brand matters. A small brand with 15 clicks on a keyword may be meaningful. A large brand with 15 clicks is noise.
 
 Format: `metric value (source, date range, sample if applicable)`
 Example: "SQP ATC rate 10.1% (SQP MCP, all-time through Q4 2024, 713 brand clicks)"

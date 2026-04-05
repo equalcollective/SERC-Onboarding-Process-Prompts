@@ -43,20 +43,42 @@ Key summary fields live in the DATABASE ROW PROPERTIES, not as a
 separate table inside the page. Update these properties:
 
 - Brand Name: [from Step 00]
-- Client Goal: [VERBATIM — do not paraphrase]
+- Client Goal: BULLET POINTS. Each goal = one bullet. Verbatim.
+  Example: • Growth — aggressive • Willing to run negative month 1 • Break even by month 2
 - Hero ASIN: [ASIN + product name from Step 01]
-- Hero Root Groups: [3-4 group names from Step 02]
-- Constraints (Ranked): [ALL declining metrics from Step 01, ranked by severity]
-- Notes: Seasonal info, market position, branded KW health,
-  and any extra observations
+- Hero Root Groups: BULLET POINTS. One group per bullet.
+  Example: • goal planner (12.7K/mo, 0.23% imp share) • goal journal (7K/mo, 0.42% imp share)
+- Constraints (Ranked): BULLET POINTS. One constraint per bullet, ordered by severity.
+  Example: • CRITICAL: Sessions -50% YoY • HIGH: Impression share declining • MEDIUM: CTR -1.3pt below market
+- Notes: Only extras that don't fit elsewhere. Keep minimal. If nothing extra, leave empty.
+  Seasonal, market position, branded KW health now go in the page body (Part 3), NOT here.
 
-===== COMPONENT 1b: WHY HERO (page body) =====
+===== COMPONENT 1b: BRAND CONTEXT + WHY HERO (page body) =====
 
-At the top of the page body, write a "Why Hero" section:
-- 2-4 sentences citing specific numbers
+At the top of the page body, write two short sections:
+
+PART 1 — Brand & Product Context (2-3 lines):
+- What does this brand do? What category/market?
+- What is the hero product and what's its USP?
+- How's the market — competitive, niche, growing?
+- Pull this from Step 00 context. Keep it brief — just enough
+  so a reader understands what they're looking at.
+
+PART 2 — Why Hero (2-3 lines):
 - Revenue % + potential evidence + primary constraint
-- This is the ONLY summary prose — no other summary paragraphs
-  anywhere in the output
+- Cite specific numbers
+- Why THIS ASIN over others (if multiple existed)
+
+PART 3 — Key Context (bullet points):
+- • Seasonal: yes/no + one-line evidence
+- • Market position: brand share on hero keywords
+- • Branded KW health: purchase share + status
+These used to be in Notes property. Now they live here so
+Notes stays minimal (only true extras).
+
+Total: Parts 1-2 = 4-6 sentences narrative. Part 3 = bullets.
+This is the ONLY content section in the page body.
+No other summary paragraphs anywhere in the output.
 
 ===== COMPONENT 2: DETAILED ANALYSIS =====
 

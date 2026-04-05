@@ -51,7 +51,7 @@ Top 3-5 candidates with the hero clearly marked:
 | **Potential: Market Relevance** | Total addressable search volume for this ASIN's keywords relative to other ASINs |
 | **Constraints (Ranked)** | Causal metrics only (sessions, CVR, buybox, ROAS, imp share, etc.) — NOT revenue. Ranked by severity: Critical / High / Medium / Low |
 | **Seasonal?** | Yes/No with YoY evidence |
-| **Confidence** | High (500+ events) / Medium (50-500) / Low (<50 events) — based on sample size for rate metrics used in scoring |
+| **Confidence** | Judgment call: relevancy first, then search volume, then meaningful clicks (20-30+ generally, depends on brand scale, never 2 clicks), then purchases/CVR. Not rigid thresholds — depends on brand size. |
 
 ## Child ASIN Breakdown
 
@@ -83,7 +83,7 @@ Every declining causal metric for the hero ASIN. Revenue decline is NOT listed h
 | **MoM Change** | Most recent month-over-month change |
 | **Severity** | Critical / High / Medium / Low |
 | **Seasonal?** | Is this decline explained by seasonality? (Yes/No + evidence) |
-| **Confidence** | High (500+ events) / Medium (50-500) / Low (<50 events) — for rate metrics |
+| **Confidence** | Judgment call based on relevancy + volume + clicks + purchases. Depends on brand scale. |
 | **Notes** | Any additional context |
 
 Include healthy metrics briefly (Status: Healthy) but only detail declining ones.
@@ -118,5 +118,5 @@ Full scoring for each candidate ASIN considered:
 - **Every number must include its date range** — e.g., "$5,769 (Q1 2026: Jan-Mar)" not just "$5,769"
 - **Every metric must name its source** — e.g., "BR CVR (Metrics Engine)" or "SQP CVR (SQP MCP)"
 - **Rate metrics must include sample size** — if CVR/CTR/ATC is based on <50 events, flag "low confidence"
-- **Add Confidence column** to any table with rate metrics: High (500+ events) / Medium (50-500) / Low (<50 events)
+- **Add Confidence column** to any table with rate metrics: based on purchases (High 20+ / Medium 5-20 / Low <5). Show click count for context.
 - **Campaign/structural claims must be verified live** — don't state "zero campaigns exist" based solely on a sales audit. Query Metrics Engine campaign/targeting data to confirm. If unverified, state: "Per Seller Central Audit (date) — not independently verified"

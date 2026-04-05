@@ -115,6 +115,13 @@ CHECK 1 — CVR vs Industry:
 Is brand CVR better than market average on this ASIN's relevant keywords?
 Check across ALL relevant keywords (Tier 1 + Tier 2), not just Tier 1.
 Tier 1 shows core intent. Tier 2 shows broader market position. Both needed.
+IMPORTANT: Only check CVR on keywords where brand has meaningful
+PURCHASES (5+ purchases minimum for any confidence, 20+ for high
+confidence). Clicks show sample size but purchases show what matters.
+Keywords with 0 purchases = no CVR data to trust.
+For small brands, meaningful purchase data may exist on only
+10-25 keywords — that's fine. Analyze those.
+Confidence: High (20+ purchases) / Medium (5-20) / Low (<5)
 
 CHECK 2 — Impression Share:
 How visible is the brand? Low impression share = room to grow.

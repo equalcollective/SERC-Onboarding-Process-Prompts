@@ -14,7 +14,7 @@ The 3-4 priority keyword groups for the hero ASIN. This is the primary keyword t
 | **Imp Share** | Brand impression share (%) |
 | **Purchase Share** | Brand purchase share (%) |
 | **ICAP Blocker** | Primary funnel stage blocker (Impressions / Clicks / Cart / Purchase / None) |
-| **Confidence** | High (500+ events) / Medium (50-500) / Low (<50 events) — based on sample size for rate metrics |
+| **Confidence** | Judgment call based on (in order): 1) Is the keyword relevant to the product? 2) Does it have meaningful search volume? 3) Are there enough brand clicks to read the data? (depends on brand scale — 20-30 clicks is generally meaningful, but 2 clicks is never enough) 4) Are there purchases? More purchases = higher confidence in CVR. Not a rigid threshold — depends on brand size. |
 | **Why Hero** | Brief explanation of why this group was selected (e.g., "Highest volume Tier 1 group with 3.1pt CVR gap and only 8% imp share") |
 
 ## Full Tiered Root Groups (Reference / Collapsed)
@@ -34,7 +34,7 @@ Every root keyword group, tiered and scored. This is reference material — pres
 | **ATC vs Market** | Brand ATC rate minus market ATC rate |
 | **CVR vs Market** | Brand CVR minus market CVR |
 | **ICAP Blocker** | Primary funnel stage blocker (Impressions / Clicks / Cart / Purchase / None) |
-| **Confidence** | High (500+ events) / Medium (50-500) / Low (<50 events) |
+| **Confidence** | Based on purchases: High (20+) / Medium (5-20) / Low (<5) |
 | **MoM** | Month-over-month volume change (%) |
 | **YoY** | Year-over-year volume change (%) |
 
@@ -47,19 +47,11 @@ Every root keyword group, tiered and scored. This is reference material — pres
 | **Purchase Share** | Brand purchase share (%) |
 | **Status** | Healthy (>=70%) / Warning (50-69%) / Critical (<50%) |
 
-## ICAP Diagnosis Table
+## ICAP Diagnosis
 
-Connects hero ASIN constraints to keyword-level funnel causes. No "Fix" column — onboarding identifies WHAT is broken, not HOW to fix it. Fix recommendations belong in strategy/campaign phase.
+No separate ICAP table needed. The Hero Root Groups table already has an "ICAP Blocker" column that shows the primary funnel blocker per group. If more detail is needed on the gap (brand rate vs market rate), add it as additional rows or a notes column within the Hero Root Groups table — not as a separate table.
 
-| Column | Description |
-|--------|-------------|
-| **ASIN** | Hero ASIN ID |
-| **Group** | Root keyword group where the blocker manifests |
-| **Blocker** | Funnel stage (Impressions / Clicks / Cart / Purchase) |
-| **Brand Rate** | Brand's rate at the blocked funnel stage (%) |
-| **Market Rate** | Market average rate at the blocked funnel stage (%) |
-| **Gap** | Difference (brand minus market, in percentage points) |
-| **Confidence** | High (500+ events) / Medium (50-500) / Low (<50 events) |
+The goal is: one look at the Hero Root Groups table tells you the keyword group, its metrics, AND where the funnel breaks. No jumping between tables.
 
 ## Trends Table
 
@@ -88,5 +80,5 @@ Directional trends for each hero root group:
 - **Every number must include its date range** — e.g., "12,669/mo (Jan 2026)" not just "12,669/mo"
 - **Every metric must name its source** — e.g., "SQP impression share (SQP MCP)" or "ad spend (Metrics Engine)"
 - **Rate metrics must include sample size** — e.g., "ATC 10.1% (713 clicks)". If <50 events, flag "low confidence"
-- **Add Confidence column** to all tables with rate metrics: High (500+ events) / Medium (50-500) / Low (<50 events)
+- **Add Confidence column** to all tables with rate metrics: Based on purchases: High (20+) / Medium (5-20) / Low (<5)
 - **If a rate is sporadic** (0% most periods, spike in one), present it as such — never cherry-pick a single good period as the representative value

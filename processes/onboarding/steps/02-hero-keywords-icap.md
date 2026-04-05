@@ -47,15 +47,32 @@ Build tiering from scratch using product understanding + SQP data.
 If existing tags exist, verify them independently.
 Override if your analysis disagrees.
 
-STEP 1 — Pull all keywords for hero ASIN:
+STEP 1 — Pull keywords WHERE THE BRAND HAS DATA:
 
-From SQP MCP (brand-level, broad pull):
+Do NOT just pull top 100 by search volume — most will have
+zero brand data and waste context. Instead:
+
+PULL 1 — Keywords with brand clicks/purchases (meaningful data):
+From SQP MCP:
 Call: search_queries(
   brandName=[SQP_BRAND_NAME],
-  limit=100
+  minClicks=1,
+  limit=50
 )
-Start with top 100 but explore further if patterns suggest
-more relevant keywords exist. Don't stop at pre-defined data.
+This gives you keywords where the brand has actual engagement.
+Sort by brand clicks or purchases — these are the keywords
+where CVR/CTR/ATC analysis is meaningful.
+
+PULL 2 — High-volume relevant keywords (potential discovery):
+Call: search_queries(
+  brandName=[SQP_BRAND_NAME],
+  minSearchVolume=1000,
+  limit=50
+)
+This catches high-volume keywords the brand SHOULD be on
+but may have zero clicks (blind spots).
+
+PULL 3 — Metrics Engine ASIN-level (deep pull for hero ASIN):
 
 From Metrics Engine (ASIN-level, deep pull):
 Call: query_metrics(
@@ -94,6 +111,21 @@ For each non-branded keyword:
 - Use product context from Prompt 00 to judge
 - Search volume matters: relevant but tiny volume = note it
   but don't prioritize
+
+CVR / CTR / ATC ANALYSIS RULE:
+- What matters is PURCHASES, not clicks. Confidence is based
+  on how many purchases happened, not how many clicks.
+- ONLY analyze CVR on keywords where brand has purchases
+  (5+ purchases minimum for any confidence, 20+ for high).
+- Keywords with 0 purchases: show volume and impression share
+  only. Do NOT present CVR — zero purchases means no
+  conversion data to trust.
+- For CTR/ATC: clicks are the sample. 20+ clicks minimum
+  for CTR analysis. 20+ clicks minimum for ATC analysis.
+- For a small brand, meaningful purchase data may exist on
+  only 10-25 keywords. That's fine — analyze those.
+- Confidence: High (20+ purchases) / Medium (5-20) / Low (<5)
+- Always show click count alongside for context.
 
 STEP 4 — Group by root keyword:
 
@@ -144,10 +176,29 @@ Selection criteria:
 
 STEP 7 — Tag in SQP:
 
-Call SQP MCP: manage_query_tags for each keyword:
-- Tier 1 keywords → tag "Tier 1"
-- Tier 2 keywords → tag "Tier 2"
-- Tier 3 keywords → tag "Tier 3"
+CRITICAL: Only tag keywords that are RELEVANT to the hero ASIN's
+product. Do NOT blindly tag top 100 keywords by volume.
+
+Before tagging, every keyword must pass the relevancy test:
+- Would a customer searching this keyword want THIS product?
+- Is this keyword about the same product category?
+- If the keyword is about a different product type, different
+  use case, or different category — do NOT tag it, even if
+  the brand shows up in SQP for it.
+
+Example: If hero ASIN is a goal planner:
+- "goal planner" → YES, tag Tier 1
+- "goal journal" → YES, tag Tier 1
+- "planner stickers" → NO, different product — do not tag
+- "daily planner" → MAYBE Tier 2 — relevant category but
+  different intent. Use product understanding to decide.
+
+Only tag keywords that passed relevancy filter in Step 3.
+
+Call SQP MCP: manage_query_tags for RELEVANT keywords only:
+- Hero root group keywords → tag "Tier 1"
+- Relevant broader keywords → tag "Tier 2"
+- Relevant generic keywords → tag "Tier 3"
 - Branded keywords → tag "Branded"
 
 If multiple hero ASINs with VERY DIFFERENT products:
@@ -155,7 +206,8 @@ If multiple hero ASINs with VERY DIFFERENT products:
 - Only if products are genuinely different
 - If similar products, no need for ASIN-specific tags
 
-Confirm tags applied.
+Confirm: how many keywords tagged per tier, and confirm
+all tagged keywords are product-relevant.
 
 ===== JOB 2: ICAP PROBLEM VERIFICATION =====
 
@@ -236,11 +288,14 @@ Verify your output matches the schema table-by-table, field-by-field before writ
 ## Branded Keywords
 | Branded Keyword | Search Volume | Brand Purchase Share | Status (healthy >80% / needs defense <80%) |
 
-## ICAP Constraints (no fix recommendations — just what's broken)
-| Hero ASIN | Root Group | Funnel Blocker | Brand Rate | Market Rate | Gap | Confidence |
-Do NOT include a "Fix" or "What to Fix" column. Onboarding identifies
-constraints, not solutions. Do NOT re-state facts from Step 01 — reference
-"per Step 01 constraint #X" instead of repeating.
+No separate ICAP table. The Hero Root Groups table already has
+ICAP Blocker column. If brand rate vs market rate detail is needed,
+add it as extra context in the Why Hero column or as a note — not
+as a separate table. One table, one view, all the info.
+
+CROSS-STEP REFERENCE RULE: When referencing Step 01 findings
+(e.g., constraints), write "per Step 01 constraint #X" — do NOT
+re-state the full fact. Each step adds NEW analysis only.
 
 ## Keyword Trends (hero root groups only)
 | Root Group | Volume (MoM) | Volume (YoY) | Share Trend | Seasonal? |

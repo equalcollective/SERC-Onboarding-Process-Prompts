@@ -106,7 +106,8 @@ Both views should be in the output. Monthly first (big picture), weekly second (
 
 ---
 
-## ✅ Suggestion 6: SQP keyword landscape table must include brand AND industry CVR + ATC rate
+## ✅ (SUPERSEDED) Suggestion 6: SQP keyword landscape table must include brand AND industry CVR + ATC rate
+**SUPERSEDED by Suggestions 11 and 26:** Later decided context should NOT include keyword rates — rates belong in Step 02. Context only lists keywords + volume.
 **Date:** 2026-04-05
 **Source:** Goal Crazy onboarding run
 **Applies to:** `steps/00-context-gathering.md` (SQP pull section), `output-schemas/context-output.md` (Key Search Terms field)
@@ -295,4 +296,136 @@ Both views should be in the output. Monthly first (big picture), weekly second (
 **Applies to:** `output-schemas/hero-keywords-output.md`, `output-schemas/hero-asin-output.md`
 **Problem:** Rate metrics (CVR, CTR, ATC) based on small samples are flagged in text but not structurally in the table. Reader has to read fine print.
 **Change:** Add a "Confidence" column to tables showing rate metrics. Values: "High (500+ events)" / "Medium (50-500)" / "Low (<50 events)". Makes it immediately visible which numbers to trust.
-**Status:** ✅
+**Status:** ✅ (updated in Suggestion 25)
+
+---
+
+## ✅ Suggestion 25: Confidence based on PURCHASES, not clicks
+**Date:** 2026-04-05
+**Source:** Output review
+**Applies to:** ALL output schemas, ALL prompts, `CLAUDE.md`
+**Problem:** Confidence was based on click count (500+/50-500/<50). But what we care about is whether clicks converted to PURCHASES. A keyword with 500 clicks and 0 purchases has zero useful CVR data. Purchases = what matters for conversion confidence.
+**Change:**
+- Confidence column now based on PURCHASES: High (20+ purchases) / Medium (5-20) / Low (<5 purchases)
+- Click count shown alongside for context but is not the primary confidence signal
+- CVR only analyzed on keywords with purchases (5+ minimum)
+- Keywords with 0 purchases = show volume and impression share only, no CVR
+**Applied to:** `CLAUDE.md` (Data Attribution + SQP Rate Metrics rules), `hero-asin-output.md` (all Confidence columns), `hero-keywords-output.md` (all Confidence columns), `steps/01-hero-asin-selection.md` (potential check), `steps/02-hero-keywords-icap.md` (CVR analysis rule + Step 3)
+
+---
+
+## ✅ Suggestion 26: SQP keyword pull — by brand clicks/purchases, not by volume
+**Date:** 2026-04-05
+**Source:** Output review
+**Applies to:** `steps/02-hero-keywords-icap.md`, `CLAUDE.md`
+**Problem:** Prompt pulled top 100 keywords by search volume. For small brands, 90 of those have zero brand data. CVR on those = 0%, which is meaningless and drags analysis down.
+**Change:**
+- Pull 1: Keywords where brand has clicks (minClicks=1, limit=50) — for conversion analysis
+- Pull 2: High-volume keywords (minSearchVolume=1000, limit=50) — for discovery/blind spots
+- CVR/CTR/ATC analysis only on keywords with meaningful purchases (not volume)
+- Top 100 by volume is only used in Step 00 context as landscape scan
+**Applied to:** `steps/02-hero-keywords-icap.md` (Step 1 rewritten), `CLAUDE.md` (SQP Rate Metrics rule)
+
+---
+
+## ✅ Suggestion 27: SQP tagging — only product-relevant keywords
+**Date:** 2026-04-05
+**Source:** Output review
+**Applies to:** `steps/02-hero-keywords-icap.md`, `CLAUDE.md`
+**Problem:** Tagging was applied to top keywords without strict relevancy check. Tags persist in SQP and affect future analysis for the whole team. Wrong tags = polluted data.
+**Change:**
+- Every keyword must pass relevancy test before tagging: "would a customer searching this want THIS product?"
+- Only tag keywords that passed the relevancy filter in Step 3
+- Include examples of what passes vs what doesn't
+- After tagging, confirm count per tier and that all tagged keywords are product-relevant
+**Applied to:** `steps/02-hero-keywords-icap.md` (Step 7 rewritten), `CLAUDE.md` (new "SQP Tagging — Relevancy First" rule)
+
+---
+
+## ✅ Suggestion 28: Stop between steps — wait for human review
+**Date:** 2026-04-05
+**Source:** Output review
+**Applies to:** ALL prompts, `CLAUDE.md`
+**Problem:** AI ran all steps in sequence without stopping for human review between steps. No gate between context → hero ASIN → hero keywords.
+**Change:**
+- Every prompt now ends with: "STOP HERE. Do NOT proceed to next step automatically. Wait for human review and approval."
+- CLAUDE.md global rule: "Never combine steps. Never run Step 01 immediately after Step 00. Always wait for approval."
+**Applied to:** `CLAUDE.md` (Running Prompts section), `steps/00-context-gathering.md`, `steps/01-hero-asin-selection.md`, `steps/02-hero-keywords-icap.md`
+
+---
+
+## ✅ Suggestion 29: Campaign verification — live data first, not audit confirmation
+**Date:** 2026-04-05
+**Source:** Output review
+**Applies to:** `steps/01-hero-asin-selection.md`, `CLAUDE.md`
+**Problem:** Prompt said "if audit says X, confirm with live data." This is backwards — confirmation bias. AI starts from audit claim and looks for evidence to support it.
+**Change:**
+- Pull live campaign data from Metrics Engine FIRST, independently
+- State what you find from live data. Don't reference what the audit says.
+- The audit is irrelevant — live data is the truth.
+- Never frame as "audit says X — confirmed/not confirmed." Frame as "live data shows Y."
+**Applied to:** `steps/01-hero-asin-selection.md` (Campaign Structure section rewritten), `CLAUDE.md` (Independent Research rule updated)
+
+---
+
+## ✅ Suggestion 30: Notion database properties cleaned up
+**Date:** 2026-04-05
+**Source:** Output review
+**Applies to:** Notion Onboarding Outputs database, `CLAUDE.md`, `steps/03-final-assembly.md`
+**Changes:**
+- Removed from properties: Onboarded Date, SQP Brand Name, Seller ID, Marketplace (operational → page body)
+- Renamed "Primary Constraint" → "Constraints (Ranked)" to match all-constraints-ranked approach
+- View order: Brand Name → Status → Client Goal → Hero ASIN → Hero Root Groups → Constraints (Ranked) → Notes
+- Notes is last column
+- Prompts updated to store operational data in page body, write to correct property names
+**Applied to:** Notion database (live), `CLAUDE.md`, `steps/00-context-gathering.md`, `steps/03-final-assembly.md`, `output-schemas/summary-table.md`
+
+---
+
+## ✅ Suggestion 31: Remove separate ICAP table — hero keyword groups table is enough
+**Date:** 2026-04-05
+**Source:** Output review
+**Applies to:** `output-schemas/hero-keywords-output.md`, `steps/02-hero-keywords-icap.md`
+**Problem:** Hero Root Groups table has an ICAP Blocker column. Then there's a separate ICAP Diagnosis table repeating the same groups with brand rate vs market rate. Redundant — two tables showing the same thing.
+**Change:** Removed separate ICAP Diagnosis table. Hero Root Groups table is the single view — ICAP Blocker column shows the funnel break. If brand rate vs market rate detail is needed, add to Why Hero column or as a note within the same table.
+**Applied to:** `output-schemas/hero-keywords-output.md` (ICAP section rewritten), `steps/02-hero-keywords-icap.md` (output section updated)
+
+---
+
+## ✅ Suggestion 32: Confidence is a judgment call, not rigid thresholds
+**Date:** 2026-04-05
+**Source:** Output review
+**Applies to:** ALL output schemas, ALL prompts, `CLAUDE.md`
+**Problem:** Confidence was defined as rigid thresholds (500+/50-500/<50 events, then 20+/5-20/<5 purchases). But real confidence depends on: relevancy first, then search volume, then meaningful clicks (scale-dependent), then purchases. A small brand with 15 clicks may be meaningful. A large brand with 15 clicks is noise.
+**Change:** Confidence is now a judgment call based on (in priority order):
+1. Is the keyword relevant to the product?
+2. Does it have meaningful search volume?
+3. Are there enough brand clicks to read the data? (depends on brand scale — 20-30 generally meaningful, 2 clicks never enough)
+4. Are there purchases? More purchases = higher confidence in CVR.
+Not rigid numbers — depends on brand size and context.
+**Applied to:** `CLAUDE.md` (Data Attribution rule), `hero-asin-output.md` (all Confidence columns), `hero-keywords-output.md` (all Confidence columns), `steps/01-hero-asin-selection.md`, `steps/02-hero-keywords-icap.md`
+
+---
+
+## ✅ Suggestion 33: Add brand/product context to the output — reader needs to know what this brand IS
+**Date:** 2026-04-05
+**Source:** Output review
+**Problem:** Output jumps straight into hero ASIN and constraints without telling the reader what the brand does, what the product is, or what the market looks like. Someone opening this for the first time has zero context.
+**Change:** The page body section (previously just "Why Hero") now has two parts:
+- Part 1: Brand & Product Context (2-3 lines) — what does the brand do, what's the hero product's USP, how's the market
+- Part 2: Why Hero (2-3 lines) — revenue evidence + potential + constraint
+Total: 4-6 sentences. Gives enough context to understand the rest without opening the full context page.
+**Applied to:** `output-schemas/summary-table.md` (Page Body section expanded), `steps/03-final-assembly.md` (Component 1b rewritten)
+
+---
+
+## ✅ Suggestion 34: Multi-item properties in bullet points, never paragraphs
+**Date:** 2026-04-05
+**Source:** Output review
+**Problem:** Client Goal, Constraints, Hero Root Groups, Notes were written as paragraphs in database properties. Hard to scan — easy to miss individual points buried in text.
+**Change:** All multi-item properties must use bullet points. One item per bullet. Never paragraphs.
+- Client Goal: each goal = one bullet, verbatim
+- Constraints: one constraint per bullet, ordered by severity
+- Hero Root Groups: one group per bullet with volume + imp share
+- Notes: one point per bullet (seasonal, branded health, etc.)
+**Applied to:** `output-schemas/summary-table.md` (property descriptions), `CLAUDE.md` (new "Bullet Points, Not Paragraphs" global rule), `steps/03-final-assembly.md` (property write instructions with examples)
