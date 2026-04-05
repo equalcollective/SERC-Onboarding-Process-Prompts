@@ -26,7 +26,7 @@ This is the Amazon brand onboarding system. It contains the process definition, 
 - **Context reference** follows context-output.md exactly — stored as a separate Notion page (internal only)
 - **ALL output goes to the Onboarding Outputs database:** https://www.notion.so/5cb5e662750a4ad8af170d1e67592319
   - **Always create a NEW row** for every onboarding run — even if the brand already exists in the database. If "Goal Crazy" was onboarded before and you're asked to onboard it again, create a fresh row. Old rows stay as history.
-  - When a new brand is requested, create a new row with: Brand Name, Seller ID, SQP Brand Name, Marketplace, Onboarded Date, Status = "Not Started"
+  - When a new brand is requested, create a new row with: Brand Name, Status = "Not Started". Store Seller ID, SQP Brand Name, and Marketplace in the page body (operational data, not properties).
   - Each brand's page (inside the row) contains the step outputs as sections
   - After each step, update the Status property on the brand's row
   - After each step, update the Notes property with any extra observations

@@ -46,7 +46,7 @@ separate table inside the page. Update these properties:
 - Client Goal: [VERBATIM — do not paraphrase]
 - Hero ASIN: [ASIN + product name from Step 01]
 - Hero Root Groups: [3-4 group names from Step 02]
-- Primary Constraint: [top severity constraint from Step 01]
+- Constraints (Ranked): [ALL declining metrics from Step 01, ranked by severity]
 - Notes: Seasonal info, market position, branded KW health,
   and any extra observations
 

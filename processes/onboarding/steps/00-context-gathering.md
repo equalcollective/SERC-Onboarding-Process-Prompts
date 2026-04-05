@@ -142,6 +142,8 @@ https://www.notion.so/5cb5e662750a4ad8af170d1e67592319
 
 Write output under the "Step 00: Context" section of the brand's page.
 Update database row: Status → "Context Done"
+Store Seller ID and SQP Brand Name at the top of the page body
+(these are operational — needed by later prompts, not visible as properties).
 Any extra observations outside the schema → write to Notes property on the row.
 
 Chat summary (5 points):
