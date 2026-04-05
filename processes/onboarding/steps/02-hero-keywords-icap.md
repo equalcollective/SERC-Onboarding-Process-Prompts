@@ -42,6 +42,11 @@ Hero ASIN(s): [HERO_ASIN_LIST from Prompt 01]
 
 ===== JOB 1: ROOT KEYWORDS + HERO KEYWORDS + TIERING =====
 
+IMPORTANT: Do NOT use existing SQP tags as starting point.
+Build tiering from scratch using product understanding + SQP data.
+If existing tags exist, verify them independently.
+Override if your analysis disagrees.
+
 STEP 1 — Pull all keywords for hero ASIN:
 
 From SQP MCP (brand-level, broad pull):
@@ -49,6 +54,8 @@ Call: search_queries(
   brandName=[SQP_BRAND_NAME],
   limit=100
 )
+Start with top 100 but explore further if patterns suggest
+more relevant keywords exist. Don't stop at pre-defined data.
 
 From Metrics Engine (ASIN-level, deep pull):
 Call: query_metrics(
@@ -218,29 +225,42 @@ Call: query_metrics(
 )
 
 ===== OUTPUT FORMAT =====
-Follow the exact schema defined in output-schemas/hero-keywords-output.md.
+STRICT: Follow output-schemas/hero-keywords-output.md exactly.
+Every table and every field must be populated. If data unavailable, write "DATA GAP: [reason]".
+Do not skip tables, skip fields, add extra fields, or change the structure.
+Verify your output matches the schema table-by-table, field-by-field before writing to Notion.
 
-## Root Keyword Groups (all tiered)
-| Root Group | Tier | Keywords in Group | Total Search Volume | Brand Imp Share | Brand Click Share | Brand Purchase Share | Brand CTR vs Market | Brand ATC vs Market | Brand CVR vs Market | ICAP Blocker | MoM Trend | YoY Trend |
-
-## Hero Root Groups (top 3-4 must-win)
-| Hero Root Group | Keywords | Search Volume | Brand Imp Share | Brand Purchase Share | ICAP Blocker | Why Hero |
+## Hero Root Groups (top 3-4 must-win) — PRIMARY TABLE
+| Hero Root Group | Keywords | Search Volume | Brand Imp Share | Brand Purchase Share | ICAP Blocker | Confidence | Why Hero |
 
 ## Branded Keywords
 | Branded Keyword | Search Volume | Brand Purchase Share | Status (healthy >80% / needs defense <80%) |
 
-## ICAP Problem Diagnosis
-| Hero ASIN | Root Group | Funnel Blocker | Brand Rate | Market Rate | Gap | What to Fix |
+## ICAP Constraints (no fix recommendations — just what's broken)
+| Hero ASIN | Root Group | Funnel Blocker | Brand Rate | Market Rate | Gap | Confidence |
+Do NOT include a "Fix" or "What to Fix" column. Onboarding identifies
+constraints, not solutions. Do NOT re-state facts from Step 01 — reference
+"per Step 01 constraint #X" instead of repeating.
 
-## Keyword Trends
-| Root Group | Volume Trend (MoM) | Volume Trend (YoY) | Share Trend | Seasonal? |
+## Keyword Trends (hero root groups only)
+| Root Group | Volume (MoM) | Volume (YoY) | Share Trend | Seasonal? |
+Only include notable entries. Skip rows where everything is "seasonal" or "flat".
 
-## Volume Alerts (if any)
-| Keyword | Change | Direction | Significance |
+## Full Tiered Root Groups (REFERENCE ONLY — collapsed/secondary)
+| Root Group | Tier | Keywords | Volume | Imp Share | Confidence |
+This is the full list. Primary decision table is Hero Root Groups above.
+
+Do NOT write a summary paragraph at the end.
+The tables are self-explanatory. Chat summary serves as verbal recap.
 
 ===== SAVE =====
-Save to Notion under brand's onboarding page — hero keywords section.
+Save to the brand's page in the Onboarding Outputs database:
+https://www.notion.so/5cb5e662750a4ad8af170d1e67592319
+
+Write output under the "Step 02: Hero Keywords + ICAP" section of the brand's page.
+Update database row: Status → "Keywords Done"
 Tags applied in SQP.
+Any extra observations outside the schema → write to Notes property on the row.
 
 Chat summary:
 - 3-4 hero root groups and why

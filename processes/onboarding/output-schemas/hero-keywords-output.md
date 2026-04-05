@@ -2,9 +2,24 @@
 
 This is the structured output produced by Step 2: Hero Keywords + ICAP Diagnosis.
 
-## Root Keyword Groups Table (All Tiered)
+## Hero Root Groups Table (Primary Output)
 
-Every root keyword group, tiered and scored:
+The 3-4 priority keyword groups for the hero ASIN. This is the primary keyword table.
+
+| Column | Description |
+|--------|-------------|
+| **Group** | Root keyword term |
+| **Keywords** | List of constituent keywords in this group |
+| **Volume** | Total monthly search volume |
+| **Imp Share** | Brand impression share (%) |
+| **Purchase Share** | Brand purchase share (%) |
+| **ICAP Blocker** | Primary funnel stage blocker (Impressions / Clicks / Cart / Purchase / None) |
+| **Confidence** | High (500+ events) / Medium (50-500) / Low (<50 events) — based on sample size for rate metrics |
+| **Why Hero** | Brief explanation of why this group was selected (e.g., "Highest volume Tier 1 group with 3.1pt CVR gap and only 8% imp share") |
+
+## Full Tiered Root Groups (Reference / Collapsed)
+
+Every root keyword group, tiered and scored. This is reference material — present as a collapsed or secondary section, not the primary table.
 
 | Column | Description |
 |--------|-------------|
@@ -19,22 +34,9 @@ Every root keyword group, tiered and scored:
 | **ATC vs Market** | Brand ATC rate minus market ATC rate |
 | **CVR vs Market** | Brand CVR minus market CVR |
 | **ICAP Blocker** | Primary funnel stage blocker (Impressions / Clicks / Cart / Purchase / None) |
+| **Confidence** | High (500+ events) / Medium (50-500) / Low (<50 events) |
 | **MoM** | Month-over-month volume change (%) |
 | **YoY** | Year-over-year volume change (%) |
-
-## Hero Root Groups (3-4 Selected)
-
-The priority keyword groups for the hero ASIN:
-
-| Column | Description |
-|--------|-------------|
-| **Group** | Root keyword term |
-| **Keywords** | List of constituent keywords in this group |
-| **Volume** | Total monthly search volume |
-| **Imp Share** | Brand impression share (%) |
-| **Purchase Share** | Brand purchase share (%) |
-| **ICAP Blocker** | Primary funnel stage blocker |
-| **Why Hero** | Brief explanation of why this group was selected (e.g., "Highest volume Tier 1 group with 3.1pt CVR gap and only 8% imp share - largest growth opportunity") |
 
 ## Branded Keywords Table
 
@@ -47,7 +49,7 @@ The priority keyword groups for the hero ASIN:
 
 ## ICAP Diagnosis Table
 
-Connects hero ASIN constraints to keyword-level funnel causes:
+Connects hero ASIN constraints to keyword-level funnel causes. No "Fix" column — onboarding identifies WHAT is broken, not HOW to fix it. Fix recommendations belong in strategy/campaign phase.
 
 | Column | Description |
 |--------|-------------|
@@ -57,7 +59,7 @@ Connects hero ASIN constraints to keyword-level funnel causes:
 | **Brand Rate** | Brand's rate at the blocked funnel stage (%) |
 | **Market Rate** | Market average rate at the blocked funnel stage (%) |
 | **Gap** | Difference (brand minus market, in percentage points) |
-| **Fix** | Recommended action category (e.g., "Listing optimization - main image and title", "PPC bid increase for visibility", "A+ content and review strategy", "Price/shipping competitiveness") |
+| **Confidence** | High (500+ events) / Medium (50-500) / Low (<50 events) |
 
 ## Trends Table
 
@@ -73,10 +75,18 @@ Directional trends for each hero root group:
 
 ## Rules
 
-- All root groups must be tiered - no untiered keywords
+- All root groups must be tiered — no untiered keywords
 - Hero root groups must number 3-4, never fewer or more
+- **Hero Root Groups table is the primary output.** Full tiered list is reference/collapsed — not the headline.
 - Branded keywords must be completely separate from the tiered analysis
 - ICAP diagnosis must trace back to at least one constraint from Step 1
-- Every "Fix" recommendation must be a category, not a specific tactical instruction
+- ICAP table: no "Fix" column. Keep ASIN, group, blocker, brand rate, market rate, gap, confidence only.
+- **One value per cell** — no multi-line values in table cells. Keep cell content short. If explanation needed, use a separate "Notes" column.
+- Do not include a summary paragraph at the end of Step 02 output. The ICAP table + hero root groups table are self-explanatory. The chat summary (5 lines) serves as the verbal recap.
 - Trends table must cover all hero root groups, not just the top one
 - If a group has no ICAP blocker (brand outperforms market at all stages), mark as "None" and note in Why Hero
+- **Every number must include its date range** — e.g., "12,669/mo (Jan 2026)" not just "12,669/mo"
+- **Every metric must name its source** — e.g., "SQP impression share (SQP MCP)" or "ad spend (Metrics Engine)"
+- **Rate metrics must include sample size** — e.g., "ATC 10.1% (713 clicks)". If <50 events, flag "low confidence"
+- **Add Confidence column** to all tables with rate metrics: High (500+ events) / Medium (50-500) / Low (<50 events)
+- **If a rate is sporadic** (0% most periods, spike in one), present it as such — never cherry-pick a single good period as the representative value

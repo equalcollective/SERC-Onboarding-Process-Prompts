@@ -37,29 +37,26 @@ Read all previous outputs from Notion:
 You are assembling — not analyzing. All decisions are already made.
 Your job is to compile them into the final deliverable format.
 
-===== COMPONENT 1: SUMMARY TABLE (1 SCREEN) =====
+===== COMPONENT 1: DATABASE PROPERTIES (THE SUMMARY) =====
 
-Follow output-schemas/summary-table.md exactly.
+Key summary fields live in the DATABASE ROW PROPERTIES, not as a
+separate table inside the page. Update these properties:
 
-| Field | Value |
-|-------|-------|
-| Brand Name | [from Step 00] |
-| Client Goal | [VERBATIM from Step 00 — do not paraphrase] |
-| Hero ASIN | [ASIN + product name from Step 01] |
-| Why Hero | [1 sentence: revenue % + potential from Step 01] |
-| Constraints (Ranked) | [ALL declining metrics from Step 01, ranked by severity. Format: CRITICAL/HIGH/MEDIUM/LOW: metric + direction + horizon] |
-| ICAP Diagnosis | [from Step 02: funnel stage + keyword group + brand vs market gap] |
-| Hero Root Groups | [3-4 groups from Step 02 with volume + impression share each] |
-| Branded KW Health | [from Step 02: top branded keywords + purchase share + status] |
-| Seasonal? | [from Step 01: yes/no + YoY evidence] |
-| Market Position | [from Step 02: total search volume + brand purchases + brand share on hero keywords] |
+- Brand Name: [from Step 00]
+- Client Goal: [VERBATIM — do not paraphrase]
+- Hero ASIN: [ASIN + product name from Step 01]
+- Hero Root Groups: [3-4 group names from Step 02]
+- Primary Constraint: [top severity constraint from Step 01]
+- Notes: Seasonal info, market position, branded KW health,
+  and any extra observations
 
-Rules:
-- Every field populated. If data unavailable: "DATA GAP: [reason]"
-- Constraints = ALL declining metrics, not just the worst one
-- Client Goal = verbatim, never interpreted
-- Hero Root Groups = 3-4, never fewer
-- This table must be self-contained — readable without any other page
+===== COMPONENT 1b: WHY HERO (page body) =====
+
+At the top of the page body, write a "Why Hero" section:
+- 2-4 sentences citing specific numbers
+- Revenue % + potential evidence + primary constraint
+- This is the ONLY summary prose — no other summary paragraphs
+  anywhere in the output
 
 ===== COMPONENT 2: DETAILED ANALYSIS =====
 
@@ -115,7 +112,8 @@ Brand's onboarding page should now have:
 
 ===== FINALIZE =====
 
-1. Update the brand's row in "Onboarding Outputs" database:
+1. Update the brand's row in Onboarding Outputs database
+   (https://www.notion.so/5cb5e662750a4ad8af170d1e67592319):
    - Status → "Complete"
    - Hero ASIN → [ASIN + product name]
    - Hero Root Groups → [3-4 group names]

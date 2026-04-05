@@ -19,11 +19,18 @@ This is the Amazon brand onboarding system. It contains the process definition, 
 - Output must follow the exact schemas in `processes/onboarding/output-schemas/`
 
 ### Output Rules
+- **Output schemas are STRICT. Do not deviate, skip fields, or change table structure.** Every field in the schema must be populated. If data is unavailable, write "DATA GAP: [reason]" — never leave blank or omit.
+- **Extra observations** that don't fit the schema go to the **Notes** property on the brand's database row. Never lose insights — if you find something important outside the schema, write it to Notes.
 - **Summary table** (from output-schemas/summary-table.md) is the primary deliverable — fits on 1 screen
-- **Detailed analysis** follows the hero-asin-output.md and hero-keywords-output.md schemas
-- **Context reference** follows context-output.md — stored as a separate Notion page (internal only)
-- Output goes to the brand's row in the "Onboarding Outputs" Notion database under "Onboarding Prompts!"
-- After each step, update the Status property on the brand's row
+- **Detailed analysis** follows the hero-asin-output.md and hero-keywords-output.md schemas exactly
+- **Context reference** follows context-output.md exactly — stored as a separate Notion page (internal only)
+- **ALL output goes to the Onboarding Outputs database:** https://www.notion.so/5cb5e662750a4ad8af170d1e67592319
+  - **Always create a NEW row** for every onboarding run — even if the brand already exists in the database. If "Goal Crazy" was onboarded before and you're asked to onboard it again, create a fresh row. Old rows stay as history.
+  - When a new brand is requested, create a new row with: Brand Name, Seller ID, SQP Brand Name, Marketplace, Onboarded Date, Status = "Not Started"
+  - Each brand's page (inside the row) contains the step outputs as sections
+  - After each step, update the Status property on the brand's row
+  - After each step, update the Notes property with any extra observations
+- **Before writing to Notion, verify your output matches the schema table-by-table, field-by-field.** If a schema has 10 fields, your output must have exactly 10 fields.
 
 ## Global Rules (Apply Always)
 
@@ -45,8 +52,58 @@ Separate from all analysis. Check purchase share (should be 80-90%). Never hero 
 ### Data Claims
 Every recommendation cites a specific data point. No opinions without numbers.
 
-### Sales Doc
-Additional context only — NOT source of truth (except client goals/notes which ARE truth).
+### Independent Research
+- Do NOT rely on pre-defined data, existing SQP tags, or sales doc claims as starting points
+- Build all analysis from scratch using live tool queries
+- If existing tags exist in SQP from previous runs, verify independently. Override if your analysis disagrees.
+- If sales doc makes a structural claim (e.g., "zero campaigns exist"), verify via live Metrics Engine query before stating as fact
+
+### Cross-Step Referencing
+- When a later step needs to reference a finding from an earlier step, write "per Step 01 constraint #X" instead of re-stating the full fact
+- Do NOT repeat the same data point across multiple steps — reference it
+- Each step should contain only NEW analysis, not rehashed content from previous steps
+
+### No Summary Paragraphs
+- Do NOT write prose summary paragraphs at the end of any step output
+- Tables are self-explanatory. The chat summary (given verbally after each step) serves as the recap.
+- The only prose section allowed is "Why Hero" (2-4 sentences) in the final assembly
+
+### Data Attribution (Apply to ALL outputs)
+Every data point must include:
+1. **Date range** — when the data is from (e.g., "Jan 2026", "Q1 2025 vs Q1 2026", "Oct 2024–Feb 2026 avg")
+2. **Metric source** — which tool/report produced it (e.g., "SQP CVR", "BR CVR", "Ad CVR", "Metrics Engine", "Seller Central Audit")
+3. **Sample qualifier** (for rate metrics like CVR, CTR, ATC) — how many clicks/sessions the rate is based on. If <50 events, flag as "low confidence"
+
+Format: `metric value (source, date range, sample if applicable)`
+Example: "SQP ATC rate 10.1% (SQP MCP, all-time through Q4 2024, 713 brand clicks)"
+Example: "Sessions -50% YoY (Metrics Engine BR, Q1 2025: 4,105 vs Q1 2026: 2,035)"
+
+### CVR Types — Never Say Just "CVR"
+Three different CVRs exist. Never use bare "CVR" — always prefix:
+- **BR CVR** (Business Report, session-to-order) — product's own conversion over time. NOT comparable to market.
+- **SQP CVR** (Search Query Performance, click-to-purchase) — brand vs industry, directly comparable. Use THIS for market comparison.
+- **Ad CVR** (ad click-to-order) — ad traffic only.
+When showing own performance → BR CVR. When comparing to market → SQP Brand CVR vs SQP Industry CVR. Always separate rows in output tables.
+
+### Verify Everything from Live Data
+The Sales Doc and Seller Central Audit are **starting points, not conclusions**. Every factual claim about the account must be independently verified by querying live data (Metrics Engine, SQP MCP, Metabase). This includes:
+- Campaign structure ("how many campaigns exist", "no manual campaigns")
+- Performance metrics ("ROAS is X", "buy box is Y%")
+- Product status ("ASIN is dead", "no sales")
+- Market position ("impression share is X%")
+
+**Three outcomes for any claim:**
+1. **Verified** — you queried live data and confirmed it. State: "Verified via [tool] ([date range])"
+2. **Unable to verify** — you tried to query but the tool returned no data or errored. State: "Unable to verify — [tool] returned [issue]. Per Sales Doc/Audit ([date])."
+3. **Not included** — if you can't verify and the claim is central to a recommendation, do not include it. Don't build analysis on unverified assumptions.
+
+**The ONLY things trusted from the Sales Doc without verification:**
+- Client goals / stated objectives (verbatim)
+- Client notes / preferences / budget tolerance
+- Contact details
+- Anything the CLIENT said (not the sales team's interpretation)
+
+Everything else in the Sales Doc — business overview, financials, strategy suggestions, competitive claims — is **context to inform your queries**, not facts to repeat.
 
 ### Google Research
 Always do Google research FIRST before reading sales doc for brand/market context.

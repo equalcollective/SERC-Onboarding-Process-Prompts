@@ -6,7 +6,7 @@
 | Field | Value |
 |---|---|
 | **Goal** | Build baseline understanding of brand, products, client goals, market. INPUT for decision steps — not a decision. |
-| **Time** | Metrics Engine snapshot = last 8 weeks (weekly). SQP = top 100 keywords (latest available). |
+| **Time** | Metrics Engine: last 3 months (monthly MoM) + last 4-5 weeks (weekly WoW). SQP = top 100 keywords (latest available). |
 | **Granularity** | Parent ASIN level for Metrics Engine. Brand level for SQP. |
 | **Dimension** | Wide — all ASINs, all keywords. No drill-down. |
 | **Sources** | Google (primary for brand/market) > Notion sales doc (client goals = truth, rest = context) > Metrics Engine MCP > SQP MCP |
@@ -71,7 +71,8 @@ relying on sales doc and tool data for brand context."
 Seller ID for [BRAND_NAME]: [find via metrics_list_sellers]
 Marketplace: [US/UK as applicable]
 
-Call: query_metrics(
+Call — Monthly last 3 months (MoM trends):
+query_metrics(
   seller_id=[SELLER_ID],
   marketplace=[MARKETPLACE],
   metrics=["br_total_sales", "br_units", "br_sessions",
@@ -79,10 +80,13 @@ Call: query_metrics(
            "organic_sales", "cr_organic_pct",
            "ad_spend", "ad_sales", "ad_roas",
            "cr_tacos_pct", "br_avg_price"],
-  date_range={start: [8_WEEKS_AGO], end: [TODAY]},
-  granularity="weekly",
+  date_range={start: [3_MONTHS_AGO], end: [TODAY]},
+  granularity="monthly",
   dimensions=["parent_asin"]
 )
+
+Present last 3 months MoM with % change column.
+This is enough for context — deep multi-horizon analysis is Step 01's job.
 
 From this data, document:
 - Which ASINs exist and what products they are
@@ -101,27 +105,19 @@ From this data, document:
   - What search terms is this brand operating in?
   - What's the keyword universe?
   - Note any branded keywords (brand name in query)
-  - Initial sense of market size (total search volumes)
+  - List the top 10-15 keywords with search volume ONLY
+  - No rate metrics here (CTR, ATC, CVR) — that's Step 02's job
+  - This is just the keyword landscape, not keyword analysis
 
-===== STEP 1e — LISTING QUALITY (BRIEF TOUCH) =====
-
-Use the asin-product-data skill on the top 3-5 ASINs by revenue:
-/asin-product-data [TOP_ASIN_1] [TOP_ASIN_2] [TOP_ASIN_3]
-
-From this, briefly note:
-- Title quality (keywords present? readable?)
-- Image count and quality
-- A+ content present?
-- Star rating and review count
-- Any obvious red flags
-
-NOT a full assessment — just flag what's visible.
-
-If the skill returns no data or errors:
-FLAG: "Listing quality not assessed — no data source available"
+NOTE: Listing quality, pricing analysis, and detailed product assessment
+belong in Step 01 (Hero ASIN). Context only needs to know WHAT products
+exist, not HOW good their listings are.
 
 ===== OUTPUT FORMAT =====
-Follow the exact schema defined in output-schemas/context-output.md.
+STRICT: Follow output-schemas/context-output.md exactly.
+Every field must be populated. If data unavailable, write "DATA GAP: [reason]".
+Do not skip fields, add extra fields, or change the table structure.
+Verify your output matches the schema field-by-field before writing to Notion.
 
 | Field | Value |
 |-------|-------|
@@ -129,16 +125,24 @@ Follow the exact schema defined in output-schemas/context-output.md.
 | Category / Market | |
 | Products (active ASINs with names) | |
 | Client Goal (verbatim from sales doc) | |
-| Key search terms (top 10-15 from SQP) | |
+| Key search terms (top 10-15 with volume only) | |
 | Major revenue-contributing ASIN(s) | |
-| Revenue overview (last 8 weeks) | |
-| Price positioning (commodity/mid/premium) | |
-| Discovery vs Intent | |
+| Revenue overview (last 3 months MoM) | |
 | Seasonality notes | |
-| Listing quality notes (if available) | |
 | Data gaps (what info was NOT available) | |
 
-Save to Notion under the brand's onboarding page — context section.
+CONTEXT DOES NOT INCLUDE:
+- No keyword rate metrics (CTR, ATC, CVR) — that's Step 02
+- No listing quality analysis — that's Step 01
+- No pricing analysis — that's Step 01
+- No "Flags for Next Steps" — context gathers, never concludes
+
+Save to the brand's page in the Onboarding Outputs database:
+https://www.notion.so/5cb5e662750a4ad8af170d1e67592319
+
+Write output under the "Step 00: Context" section of the brand's page.
+Update database row: Status → "Context Done"
+Any extra observations outside the schema → write to Notes property on the row.
 
 Chat summary (5 points):
 - What this brand is (one sentence)

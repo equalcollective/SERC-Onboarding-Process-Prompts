@@ -101,6 +101,8 @@ Call: query_metrics(
 )
 
 Which child variant carries the parent? Is one color/size doing all work?
+Show: most recent complete month + 3mo avg + 6mo avg per child.
+Not just one month — need trend visibility at child level.
 
 ===== DIMENSION 2: POTENTIAL (from SQP) =====
 
@@ -111,6 +113,8 @@ Three checks for potential:
 
 CHECK 1 — CVR vs Industry:
 Is brand CVR better than market average on this ASIN's relevant keywords?
+Check across ALL relevant keywords (Tier 1 + Tier 2), not just Tier 1.
+Tier 1 shows core intent. Tier 2 shows broader market position. Both needed.
 
 CHECK 2 — Impression Share:
 How visible is the brand? Low impression share = room to grow.
@@ -154,8 +158,13 @@ Present potential per candidate:
 
 ===== DIMENSION 3: CONSTRAINT IDENTIFICATION =====
 
-For each hero candidate, check ALL metrics across time horizons.
+IMPORTANT: Revenue decline is a SYMPTOM, not a cause. If revenue is
+down, state it as the problem statement at the top, then focus on
+CAUSAL metrics below (sessions, CVR, buybox, ROAS, etc.).
+
+For each hero candidate, check ALL causal metrics across time horizons.
 Look at DIRECTION: is it going up, down, or flat?
+Also briefly note healthy metrics (status: healthy) for contrast.
 
 | Metric | Last 3mo | Last 6mo | Last 12mo | YoY same qtr | Direction | Severity | If Down |
 |--------|----------|----------|-----------|--------------|-----------|----------|---------|
@@ -179,21 +188,33 @@ SEASONALITY CHECK:
 - This year worse = real decline
 - This year better = real growth
 
+CAMPAIGN STRUCTURE VERIFICATION:
+- Do NOT rely solely on the Sales/Audit doc for campaign claims
+- Pull live campaign data from Metrics Engine:
+  query_metrics(metrics=["ad_spend","ad_sales","ad_roas"],
+    dimensions=["campaign","targeting"],
+    date_range={start: [3_MONTHS_AGO], end: [TODAY]})
+- Verify: how many campaigns exist? Manual vs auto? Branded vs non-branded?
+- If the audit says "zero non-branded campaigns" — confirm it with live data
+- If you cannot verify, state: "Per Seller Central Audit ([date]) — not independently verified"
+
 Flag incomplete data in bold.
 
 ===== HERO ASIN DECLARATION =====
 
 Based on Dimensions 1-3, declare the hero ASIN(s).
+Write a "Why Hero" section (2-4 sentences citing specific numbers).
+Do NOT write a separate prose verdict paragraph — the tables and
+Why Hero section speak for themselves.
 
-For each hero, state:
-1. Which ASIN (parent) and product name
-2. Revenue evidence (contribution %, trend)
-3. Potential evidence (CVR vs market, imp share, market size)
-4. All constraints ranked by severity
-5. Seasonal or not (with YoY evidence)
+If 1 hero: key fields go to database properties directly.
+If 2+ heroes: use one table with columns per hero.
 
 ===== OUTPUT FORMAT =====
-Follow the exact schema defined in output-schemas/hero-asin-output.md.
+STRICT: Follow output-schemas/hero-asin-output.md exactly.
+Every table and every field must be populated. If data unavailable, write "DATA GAP: [reason]".
+Do not skip tables, skip fields, add extra fields, or change the structure.
+Verify your output matches the schema table-by-table, field-by-field before writing to Notion.
 
 ## Hero ASIN Summary
 | Field | Hero 1 | Hero 2 (if any) |
@@ -209,16 +230,25 @@ Follow the exact schema defined in output-schemas/hero-asin-output.md.
 | Seasonal? (yes/no + evidence) | | |
 
 ## Child ASIN Breakdown (for hero parent)
-| Child ASIN | Variant | Revenue (3mo) | % of Parent | CVR | Sessions |
+| Child ASIN | Variant | Revenue (recent month) | Revenue (3mo avg) | Revenue (6mo avg) | % of Parent | CVR | Sessions |
 
-## Constraint Detail
-| Metric | 3mo | 6mo | 12mo | YoY | Direction | Severity |
+## Problem Statement
+Revenue decline (if any) stated here as the symptom. E.g., "Revenue -49% YoY (Q1 2025 vs Q1 2026)"
+
+## Constraint Detail (causal metrics only — revenue is not a constraint, it's the symptom)
+| Metric | 3mo | 6mo | 12mo | YoY | Direction | Severity | Confidence | Status |
+Status = Declining / Healthy. Detail only the declining ones. Note healthy ones briefly.
 
 ## Potential Detail
 | ASIN | Keyword | CVR vs Market | Imp Share | Search Volume | Purchases (market) |
 
 ===== SAVE =====
-Save to Notion under brand's onboarding page — hero ASIN section.
+Save to the brand's page in the Onboarding Outputs database:
+https://www.notion.so/5cb5e662750a4ad8af170d1e67592319
+
+Write output under the "Step 01: Hero ASIN" section of the brand's page.
+Update database row: Status → "Hero ASIN Done"
+Any extra observations outside the schema → write to Notes property on the row.
 
 Chat verdict (3 sentences):
 - Which ASIN is hero and why (revenue + potential)
