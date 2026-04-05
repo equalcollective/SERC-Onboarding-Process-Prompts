@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "metrics-engine": {
+      "type": "streamable-http",
+      "url": "https://api.merchantbots.com/mcp/metrics-engine/mcp"
+    },
+    "sqp-analyzer": {
+      "type": "streamable-http",
+      "url": "https://sqp-merchantbots.replit.app/mcp"
+    },
+    "notion": {
+      "type": "streamable-http",
+      "url": "https://mcp.notion.com/mcp"
+    }
+  }
+}
