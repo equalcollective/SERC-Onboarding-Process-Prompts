@@ -90,6 +90,15 @@ HERO COUNT DECISION:
 - A 60% ASIN can be hero if it also has potential
 - Revenue + potential together determine heroes
 - Could be 1, 2, or 3-4 depending on brand
+- WHEN REVENUE IS EVENLY SPLIT (e.g., top ASINs each at 10-20%
+  with no clear dominant ASIN), you MUST select multiple heroes.
+  A single hero at 17% while other ASINs sit at 15% and 14% is
+  not a valid single-hero call — that's a multi-hero brand.
+  In these cases, select all ASINs that meet BOTH:
+    (a) meaningful revenue share (top cluster, not long tail)
+    (b) growth trajectory or optimization potential
+  Constraints like low Buy Box are problems to fix, NOT reasons
+  to exclude an ASIN from hero status. Flag them as constraints.
 
 For top revenue parent ASINs, drill to child level:
 Call: query_metrics(
@@ -104,10 +113,28 @@ Which child variant carries the parent? Is one color/size doing all work?
 Show: most recent complete month + 3mo avg + 6mo avg per child.
 Not just one month — need trend visibility at child level.
 
+HERO LEVEL DECISION:
+- Default: hero ASIN = PARENT level. Child breakdown is context.
+- Exception: if ONE child has 60%+ of parent revenue AND significantly
+  better CVR/metrics than other children, call out that specific child
+  as the "hero variant" alongside the parent.
+- In output: always state the parent as hero ASIN. If a dominant child
+  exists, add a note: "Hero variant: [child ASIN] — [variant name]
+  carries [X]% of parent revenue with [Y] CVR vs [Z] for other variants."
+- Why this matters: PPC targets child ASINs. If one variant dominates,
+  PPC budget should focus there, not spread across all variants.
+
 ===== DIMENSION 2: POTENTIAL (from SQP) =====
 
-Only check potential for hero ASIN CANDIDATES from Dimension 1
-(top revenue contributors). Not all ASINs.
+Check potential for ALL hero ASIN CANDIDATES from Dimension 1.
+This means:
+- If one ASIN dominates revenue → check potential for that one
+- If revenue is evenly split (multi-hero case) → check potential
+  for EVERY ASIN in the top cluster. Potential determines which
+  of the evenly-split ASINs are worth investing in.
+- An ASIN with lower revenue but HIGH POTENTIAL can be hero
+  alongside or even over a higher-revenue ASIN with no potential.
+- Potential is the TIEBREAKER when revenue doesn't decide.
 
 Three checks for potential:
 
@@ -211,10 +238,20 @@ Flag incomplete data in bold.
 
 ===== HERO ASIN DECLARATION =====
 
-Based on Dimensions 1-3, declare the hero ASIN(s).
-Write a "Why Hero" section (2-4 sentences citing specific numbers).
-Do NOT write a separate prose verdict paragraph — the tables and
-Why Hero section speak for themselves.
+Based on Dimensions 1-3 TOGETHER, declare the hero ASIN(s).
+
+DECISION LOGIC:
+- ONE dominant ASIN (clear revenue leader + has potential) → 1 hero
+- Revenue evenly split → check potential for ALL top cluster ASINs:
+  - ASINs with revenue share + potential → hero
+  - ASINs with revenue share but NO potential → not hero (just big, not growable)
+  - ASINs with lower revenue but HIGH potential → can still be hero
+- Potential is the tiebreaker when revenue doesn't decide
+- Constraints like low buy box are problems to fix, NOT reasons to
+  exclude from hero status. Flag them as constraints.
+
+For each hero, write a "Why Hero" line (1-2 sentences citing numbers).
+Do NOT write a separate prose verdict paragraph.
 
 If 1 hero: key fields go to database properties directly.
 If 2+ heroes: use one table with columns per hero.

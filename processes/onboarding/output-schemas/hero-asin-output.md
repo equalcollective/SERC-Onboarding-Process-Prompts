@@ -53,6 +53,11 @@ Top 3-5 candidates with the hero clearly marked:
 | **Seasonal?** | Yes/No with YoY evidence |
 | **Confidence** | Judgment call: relevancy first, then search volume, then meaningful clicks (20-30+ generally, depends on brand scale, never 2 clicks), then purchases/CVR. Not rigid thresholds — depends on brand size. |
 
+### Hero Level Rule
+- Default: hero = parent ASIN. Child breakdown is supporting context.
+- If one child has 60%+ of parent revenue AND significantly better CVR/metrics than siblings: call it out as "Hero Variant" in the summary.
+- Always state parent as hero ASIN. Dominant child is noted alongside, not instead.
+
 ## Child ASIN Breakdown
 
 For the selected hero ASIN (if it is a parent), break down by child:
