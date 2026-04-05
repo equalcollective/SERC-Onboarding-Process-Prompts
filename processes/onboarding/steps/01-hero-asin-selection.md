@@ -188,15 +188,17 @@ SEASONALITY CHECK:
 - This year worse = real decline
 - This year better = real growth
 
-CAMPAIGN STRUCTURE VERIFICATION:
-- Do NOT rely solely on the Sales/Audit doc for campaign claims
-- Pull live campaign data from Metrics Engine:
+CAMPAIGN STRUCTURE — PULL LIVE DATA (do NOT reference audit):
+- Pull live campaign data from Metrics Engine FIRST:
   query_metrics(metrics=["ad_spend","ad_sales","ad_roas"],
     dimensions=["campaign","targeting"],
     date_range={start: [3_MONTHS_AGO], end: [TODAY]})
-- Verify: how many campaigns exist? Manual vs auto? Branded vs non-branded?
-- If the audit says "zero non-branded campaigns" — confirm it with live data
-- If you cannot verify, state: "Per Seller Central Audit ([date]) — not independently verified"
+- From this data, independently determine:
+  How many campaigns exist? Manual vs auto? Branded vs non-branded?
+  What keywords are being targeted? What's the spend distribution?
+- Do NOT start from what the audit says and "confirm" it.
+  Start from live data and state what you find.
+- The audit is irrelevant here — live data is the truth.
 
 Flag incomplete data in bold.
 
@@ -249,6 +251,9 @@ https://www.notion.so/5cb5e662750a4ad8af170d1e67592319
 Write output under the "Step 01: Hero ASIN" section of the brand's page.
 Update database row: Status → "Hero ASIN Done"
 Any extra observations outside the schema → write to Notes property on the row.
+
+STOP HERE. Do NOT proceed to Step 02 automatically.
+Give the chat verdict below, then WAIT for human review and approval.
 
 Chat verdict (3 sentences):
 - Which ASIN is hero and why (revenue + potential)

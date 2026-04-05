@@ -13,9 +13,12 @@ This is the Amazon brand onboarding system. It contains the process definition, 
 
 ### Running Prompts
 - Prompts are in `processes/onboarding/steps/`
-- Run in order: 00 → 01 → 02
+- Run in order: 00 → 01 → 02 → 03
+- **STOP after each step. Do NOT proceed to the next step automatically.**
+- After completing a step: write output to Notion, give chat summary, then WAIT.
+- The human will review the output, give feedback, and explicitly ask you to run the next step.
+- Never combine steps. Never run Step 01 immediately after Step 00. Always wait for approval.
 - Each prompt reads the previous step's output from Notion
-- Each prompt writes output to Notion
 - Output must follow the exact schemas in `processes/onboarding/output-schemas/`
 
 ### Output Rules
@@ -56,7 +59,7 @@ Every recommendation cites a specific data point. No opinions without numbers.
 - Do NOT rely on pre-defined data, existing SQP tags, or sales doc claims as starting points
 - Build all analysis from scratch using live tool queries
 - If existing tags exist in SQP from previous runs, verify independently. Override if your analysis disagrees.
-- If sales doc makes a structural claim (e.g., "zero campaigns exist"), verify via live Metrics Engine query before stating as fact
+- NEVER start from a sales doc/audit claim and try to "confirm" it. Always pull live data FIRST and state what YOU find. The audit is irrelevant — live data is the truth.
 
 ### Cross-Step Referencing
 - When a later step needs to reference a finding from an earlier step, write "per Step 01 constraint #X" instead of re-stating the full fact
