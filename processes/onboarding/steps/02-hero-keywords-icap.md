@@ -262,6 +262,9 @@ Update database row: Status → "Keywords Done"
 Tags applied in SQP.
 Any extra observations outside the schema → write to Notes property on the row.
 
+STOP HERE. Do NOT proceed to Step 03 automatically.
+Give the chat summary below, then WAIT for human review and approval.
+
 Chat summary:
 - 3-4 hero root groups and why
 - Top ICAP blockers per group

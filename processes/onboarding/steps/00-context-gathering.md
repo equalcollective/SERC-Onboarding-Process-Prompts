@@ -146,6 +146,9 @@ Store Seller ID and SQP Brand Name at the top of the page body
 (these are operational — needed by later prompts, not visible as properties).
 Any extra observations outside the schema → write to Notes property on the row.
 
+STOP HERE. Do NOT proceed to Step 01 automatically.
+Give the chat summary below, then WAIT for human review and approval.
+
 Chat summary (5 points):
 - What this brand is (one sentence)
 - Client's goal (one sentence)
